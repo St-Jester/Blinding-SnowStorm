@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+
+    public static bool GameIsOver;
+
+    public GameObject gameOverUI;
+    public GameObject completeLevelUI;
+
+    
     private float NetWorth = 1f;
     public static float generalDifficultyMod;
     
@@ -28,11 +35,27 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
+        GameIsOver = false;
+
         CalculateDifficulty();//and do this every level start
     }
 
+
+    private void Update()
+    {
+        
+            if (GameIsOver)
+                return;
+
+            if (PlayerStats.Lives <= 0)
+            {
+                EndGame();
+            }
+        
+    }
     void LevelEnd()
     {
+
     }
 
     public void LevelStart()
@@ -40,7 +63,10 @@ public class GameManager : MonoBehaviour {
         CalculateDifficulty();
     }
 
-    void Update () {
-		
-	}
+    void EndGame()
+    {
+        GameIsOver = true;
+        gameOverUI.SetActive(true);
+    }
+
 }

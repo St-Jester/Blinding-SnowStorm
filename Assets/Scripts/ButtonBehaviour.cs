@@ -14,13 +14,15 @@ public class ButtonBehaviour : MonoBehaviour {
 
 
     public float buttonTime;
-    public int reward;
+    public int reward, buttonDamage = 1;
     public static int s_reward;
+    public static int s_buttonDamage;
 
 
     private void Awake()
     {
         s_reward = reward;
+        s_buttonDamage = buttonDamage;
     }
     public void Settime(float time)
     {

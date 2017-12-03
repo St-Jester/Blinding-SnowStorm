@@ -7,18 +7,20 @@ using Random = UnityEngine.Random;
 
 public class RandomButtons : MonoBehaviour {
 
+
+#region WaveDifficulty
     private float CalculatedDifficluty;
     private const int baseAmount = 400;
 
     private int delta;
-
+        #region DefaultWaveParameters
             float _timeBetween = 5f;
             int _numWaves = 5;
             float _rate = 30f;
             int _count = 6;
             float _time = 5f;
-
-
+        #endregion
+#endregion
 
     [System.Serializable]
     public struct Wave
@@ -35,37 +37,32 @@ public class RandomButtons : MonoBehaviour {
         COUNTING//countdown
     }
 
-    WaveState state = WaveState.COUNTING;
+    private WaveState state = WaveState.COUNTING;
     private int waveIndex = 0;
     private int AliveEnemies;
-
     private float waveCountdown;
+    private GameObject parentCanvas;
+    private CanvasGroup cg;
 
-
-    public float SnowflakeAmount = 0.15f;
+    public Wave[] waves;
+    [Space]
 
     [Header("References")]
     public Button button;
-
-    public float timeBetween = 5f;//must be random, based on money earned... or not
-    
-    public Wave[] waves;
-    GameObject parentCanvas;
     public Canvas playerUI;
 
-    float panelAlpha;
-
+    [Header ("Optional")]
+    public float timeBetween = 5f;//must be random, based on money earned... or not
+    public float SnowflakeAmount = 0.015f;
 
     void Start () {
-
-        playerUI.GetComponent<CanvasGroup>().alpha = 0;
-        panelAlpha = playerUI.GetComponent<CanvasGroup>().alpha;
+        cg = playerUI.GetComponent<CanvasGroup>();
+        cg.alpha = 0;
         parentCanvas = GameObject.FindWithTag("GamePlay");
         SetDifficulty(GameManager.generalDifficultyMod);
         ButtonBehaviour.TimeOutEvent += MissedButton;
         ButtonBehaviour.KilledButton += OnEnemyKilled;
         ButtonBehaviour.EarnMoneyEvent += EarnReward;
-
     }
 
     void Update () {
@@ -77,7 +74,7 @@ public class RandomButtons : MonoBehaviour {
             ButtonBehaviour.KilledButton -= OnEnemyKilled;
             ButtonBehaviour.TimeOutEvent -= MissedButton;
             ButtonBehaviour.EarnMoneyEvent -= EarnReward;
-            panelAlpha = 0f;
+
                enabled = false;//TEMP!!!
             return;
         }
@@ -173,6 +170,7 @@ public class RandomButtons : MonoBehaviour {
     
     public void MissedButton()
     {
+        PlayerStats.Lives -= ButtonBehaviour.s_buttonDamage;
         //Debug.Log("MissedButton");
     }
 
@@ -201,12 +199,10 @@ public class RandomButtons : MonoBehaviour {
     }
 
 
-
     private void SpawnFlakes()
     {
-        if(playerUI.GetComponent<CanvasGroup>().alpha<1f)
-            playerUI.GetComponent<CanvasGroup>().alpha += SnowflakeAmount;
-
+        if(cg.alpha<1f)
+            cg.alpha += SnowflakeAmount;
         Debug.Log(playerUI.GetComponent<CanvasGroup>().alpha);
     }
 }
