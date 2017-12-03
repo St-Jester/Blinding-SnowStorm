@@ -21,13 +21,13 @@ public class CameraController : MonoBehaviour {
         if ((Input.GetKey("a") || Input.mousePosition.x <= screen_boarders))//left
         {
         transform.rotation = Quaternion.RotateTowards(transform.rotation, 
-            Quaternion.Euler(new Vector3(0f, -42f,  0f)), 
+            Quaternion.Euler(new Vector3(0f, -36f,  0f)), 
             cam_speed * Time.deltaTime);
         }
         if ((Input.GetKey("d") || Input.mousePosition.x >= Screen.width - screen_boarders))//right
             {
             transform.rotation = Quaternion.RotateTowards(transform.rotation,
-                Quaternion.Euler(new Vector3(0f, 42f, 0f)), 
+                Quaternion.Euler(new Vector3(0f, 36f, 0f)), 
                 cam_speed * Time.deltaTime);
 
         }
