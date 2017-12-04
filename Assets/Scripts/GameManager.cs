@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour {
 
 
     public static bool GameIsOver;
 
-    public GameObject gameOverUI;
+   
     public GameObject completeLevelUI;
 
     
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviour {
     private void Awake()
     {
         GameIsOver = false;
-
+        RandomButtons.LvlCompletedEvent += LevelEnd;
         CalculateDifficulty();//and do this every level start
     }
 
@@ -55,7 +57,9 @@ public class GameManager : MonoBehaviour {
     }
     void LevelEnd()
     {
-
+        completeLevelUI.SetActive(true);
+        Debug.Log("lvlend");
+        //winlevel set active
     }
 
     public void LevelStart()
@@ -66,7 +70,9 @@ public class GameManager : MonoBehaviour {
     void EndGame()
     {
         GameIsOver = true;
-        gameOverUI.SetActive(true);
+        SceneManager.LoadScene(2);
     }
+
+
 
 }

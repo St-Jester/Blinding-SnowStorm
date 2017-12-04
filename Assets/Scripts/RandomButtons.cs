@@ -15,7 +15,7 @@ public class RandomButtons : MonoBehaviour {
     private int delta;
         #region DefaultWaveParameters
             float _timeBetween = 5f;
-            int _numWaves = 5;
+            int _numWaves = 2;
             float _rate = 30f;
             int _count = 6;
             float _time = 5f;
@@ -36,6 +36,11 @@ public class RandomButtons : MonoBehaviour {
         WAITING,//waitforkilling
         COUNTING//countdown
     }
+
+
+    public delegate void LevelCompleted();
+    public static event LevelCompleted LvlCompletedEvent;
+
 
     private WaveState state = WaveState.COUNTING;
     private int waveIndex = 0;
@@ -75,6 +80,8 @@ public class RandomButtons : MonoBehaviour {
             ButtonBehaviour.TimeOutEvent -= MissedButton;
             ButtonBehaviour.EarnMoneyEvent -= EarnReward;
 
+            if(LvlCompletedEvent!=null)
+            LvlCompletedEvent();
                enabled = false;//TEMP!!!
             return;
         }
